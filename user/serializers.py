@@ -5,15 +5,16 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-# class ProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
 
-#     class Meta:
-#         model = Profile
-#         fields = ['image', 'nickname', 'introduce', 'created_at', 'updated_at']
+    class Meta:
+        model = Profile
+        fields = ['image', 'nickname', 'introduce', 'created_at', 'updated_at']
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # profile = ProfileSerializer()
 
     class Meta:
         model = User
