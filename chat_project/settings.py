@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
 
 # Auth user
 AUTH_USER_MODEL = 'user.User'
@@ -33,6 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # OpenAI API Key
+load_dotenv()
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 

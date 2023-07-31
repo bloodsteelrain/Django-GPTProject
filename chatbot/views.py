@@ -3,14 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth import get_user_model
 from .models import Conversation
-from dotenv import load_dotenv
 import openai
-import os
 
 User = get_user_model()
 
-load_dotenv()
-openai.api_key = os.getenv('OPENAI_API_KEY')
 
 class ChatbotView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -18,9 +14,10 @@ class ChatbotView(APIView):
     def get(self, request):
         user = request.user
         conversations = Conversation.objects.filter(user=user)
-        serialized_conversations = [{'prompt': c.prompt, 'response': c.response} for c in conversations]
+        serialized_conversations = [
+            {'prompt': c.prompt, 'response': c.response} for c in conversations]
         return Response({'conversations': serialized_conversations}, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         prompt = request.data.get('prompt')
         if prompt:
@@ -28,8 +25,9 @@ class ChatbotView(APIView):
 
             # 데이터베이스에서 과거 대화들 가져오기
             previous_conversations = Conversation.objects.filter(user=user)
-            previous_conversations_text = "\n".join([f"User: {c['prompt']}\nAI: {c['response']}" for c in previous_conversations])
-            
+            previous_conversations_text = "\n".join(
+                [f"User: {c.prompt}\nAI: {c.response}" for c in previous_conversations])
+
             # 과거 대화들을 새 질문과 합치기
             prompt_with_previous = f"{previous_conversations_text}\nUser: {prompt}\nAI:"
 
@@ -46,7 +44,8 @@ class ChatbotView(APIView):
             response = completions.choices[0].text.strip()
 
             # 새 질문(prompt)과 답변(response)을 데이터베이스에 저장하기
-            conversation = Conversation.objects.create(prompt=prompt, response=response, user=user)
+            conversation = Conversation.objects.create(
+                prompt=prompt, response=response, user=user)
 
             return Response({'prompt': prompt, 'response': response}, status=status.HTTP_200_OK)
         return Response({'error': 'Prompt field is required.'}, status=status.HTTP_400_BAD_REQUEST)
