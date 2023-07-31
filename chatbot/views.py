@@ -24,12 +24,13 @@ class ChatbotView(APIView):
             user = request.user
 
             # 데이터베이스에서 과거 대화들 가져오기
-            previous_conversations = Conversation.objects.filter(user=user)
+            previous_conversations = Conversation.objects.filter(
+                user=user).order_by('id')
             previous_conversations_text = "\n".join(
-                [f"User: {c.prompt}\nAI: {c.response}" for c in previous_conversations])
+                [f"User: {c.prompt}\nAssistant: {c.response}" for c in previous_conversations])
 
             # 과거 대화들을 새 질문과 합치기
-            prompt_with_previous = f"{previous_conversations_text}\nUser: {prompt}\nAI:"
+            prompt_with_previous = f"{previous_conversations_text}\nUser: {prompt}\nAssistant:"
 
             # OpenAI를 사용해 AI의 답변을 생성하기
             model_engine = "text-davinci-003"

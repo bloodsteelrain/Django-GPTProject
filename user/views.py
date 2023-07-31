@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile
+from chatbot.models import Conversation
 from .serializers import UserSerializer, ProfileSerializer
 from django.contrib.auth import get_user_model
 
@@ -23,6 +24,9 @@ class RegisterationView(APIView):
             user.set_password(password)
             user.save()
             profile = Profile.objects.create(user=user)
+            conversation = Conversation.objects.create(
+                user=user, prompt="너(assistant)의 역할은 뭐야?",
+                response="assistant는 다양한 장르에 대한 지식과 이해를 기반으로 보조 작가 역할을 수행하는 소설가이다.")
             response_data = {
                 'message': '회원가입에 성공하였습니다.',
                 'user': serializer.data,
@@ -63,7 +67,7 @@ class ProfileView(APIView):
         profile = Profile.objects.get(user=request.user)
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)
-    
+
 
 class ProfileEditView(APIView):
     permission_classes = [permissions.IsAuthenticated]
