@@ -59,10 +59,10 @@ class ClearChatView(APIView):
 
     def delete(self, request):
         user = request.user
-        conversations = Conversation.objects.filter(
-            user=user).order_by('-id')[:2]
-
-        for conversation in conversations:
+        try:
+            conversation = Conversation.objects.filter(
+                user=user).order_by('-id')[0]
             conversation.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({'message': '마지막 대화가 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({'message': '대화 삭제에 실패하였습니다.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
