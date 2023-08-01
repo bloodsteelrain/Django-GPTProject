@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth import get_user_model
 from .models import Conversation
+from .throttling import UserChatbotThrottle
 import openai
 
 User = get_user_model()
@@ -10,6 +11,7 @@ User = get_user_model()
 
 class ChatbotView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [UserChatbotThrottle]
 
     def get(self, request):
         user = request.user
@@ -50,3 +52,17 @@ class ChatbotView(APIView):
 
             return Response({'prompt': prompt, 'response': response}, status=status.HTTP_200_OK)
         return Response({'error': 'Prompt field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ClearChatView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request):
+        user = request.user
+        conversations = Conversation.objects.filter(
+            user=user).order_by('-id')[:2]
+
+        for conversation in conversations:
+            conversation.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
