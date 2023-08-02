@@ -146,7 +146,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'user_chatbot': '5/day',
+        'user-chatbot': '5/day',
     },
 }
 

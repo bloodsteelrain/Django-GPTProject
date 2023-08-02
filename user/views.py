@@ -52,14 +52,6 @@ class LoginView(APIView):
         return Response({'error': '로그인에 실패하였습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        logout(request)
-        return Response({'message': '로그아웃하였습니다.'}, status=status.HTTP_200_OK)
-
-
 class ProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
