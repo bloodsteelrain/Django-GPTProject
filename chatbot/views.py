@@ -26,8 +26,10 @@ class ChatbotView(APIView):
             user = request.user
 
             # 데이터베이스에서 과거 대화들 가져오기
+            total_count = Conversation.objects.filter(user=user).count()
+            start_index = max(0, total_count - 3)
             previous_conversations = Conversation.objects.filter(
-                user=user).order_by('id')
+                user=user).order_by('id')[start_index:]
             previous_conversations_text = "\n".join(
                 [f"User: {c.prompt}\nAssistant: {c.response}" for c in previous_conversations])
 
