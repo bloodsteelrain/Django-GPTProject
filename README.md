@@ -1,6 +1,7 @@
-# Django-GPTProject
+# Django-NovelAssistant
 
 - Django Rest Framework를 이용해 챗봇 API를 제작하는 프로젝트입니다.
+- 프론트엔드 리포지토리: [NovelAssistant-FE](https://github.com/bloodsteelrain/NovelAssistant-FE)
 
 ## 1. 목표와 기능
 
@@ -30,6 +31,7 @@
 - <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 - <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
 - <img src="https://img.shields.io/badge/sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white">
+- <img src="https://img.shields.io/badge/openai-412991?style=for-the-badge&logo=openai&logoColor=white">
 - <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 - <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 - <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
@@ -38,13 +40,16 @@
 
 - Python==3.11.4
 - Django==4.2.3
+- django-cors-headers==4.2.0
 - djangorestframework==3.14.0
+- djangorestframework-simplejwt==5.2.2
 - openai==0.27.8
 - Pillow==10.0.0
 
 ### 2.3 배포 URL
 
-- 미정
+- 백엔드: 미정
+- 프론트엔드: [Github pages](https://bloodsteelrain.github.io/NovelAssistant-FE/)
 
 ## 3. 프로젝트 구조와 개발 일정
 
@@ -156,6 +161,8 @@
 3. 로그인
    ![로그인](https://github.com/bloodsteelrain/Django-GPTProject-BE/assets/131739343/74f1b981-49a6-48f7-a1e6-f7b2d5995cf8)
 
+   ![액세스토큰](https://github.com/bloodsteelrain/NovelAssistant-BE/assets/131739343/9b0b427e-50c5-4c6d-a28c-a24a1f8a37d8)
+
 4. 프로필 보기, 수정
    ![프로필](https://github.com/bloodsteelrain/Django-GPTProject-BE/assets/131739343/207a2735-9d41-4540-aa72-f74a4686ddef)
 
@@ -171,9 +178,17 @@
 8. 로그아웃
    ![로그아웃](https://github.com/bloodsteelrain/Django-GPTProject-BE/assets/131739343/b9ca05f2-f843-4d15-8fff-59fe7fdab763)
 
-## 6. 보완 예정
+## 6. 느낀점
+
+1. DRF 사용
+2. 백 - 프론트 연결
+3. JWT를 사용한 토큰 발급, 보안
+4. 예상치 못한 에러들
+
+## 7. 보완 목록
 
 1. 챗봇 답변을 게시글로 생성
-2. 프로필 사진 표시
-3. UI
-4. 배포
+2. Refresh token 활용
+3. 프로필 사진 표시
+4. UI
+5. 배포
