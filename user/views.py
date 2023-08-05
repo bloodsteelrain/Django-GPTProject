@@ -18,11 +18,6 @@ class RegisterationView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            # 비밀번호 값 가져오기
-            password = serializer.validated_data['password']
-            # 비밀번호 해시 작업
-            user.set_password(password)
-            user.save()
             profile = Profile.objects.create(user=user)
             conversation = Conversation.objects.create(
                 user=user, prompt="너(assistant)의 역할은 뭐야?",
